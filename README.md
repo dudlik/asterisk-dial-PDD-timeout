@@ -6,7 +6,9 @@ If you set the timeout value to 1-119 (in seconds), the argument will be applied
 The PDD timer is removed in case of ringing or progress arrived. 
 The timeout is not removed exactly. It is just prolonged to 120 second and used as original timeout option.
 
-When you set the option to 2 (2 seconds)
+For example:
+when you set the option to 2 (2 seconds)
+exten => _X.,n,Dial(SIP/...,2)
 The Dial will wait two seconds for ringing or progress. 
 If none of them arrive in the time, the Dial is ended with hangup cause 41.
 Then you can just check ${HANGUPCAUSE} and use another Dial if you want.
