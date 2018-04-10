@@ -1,0 +1,40 @@
+--- app_dial.c	2016-12-08 18:23:53.000000000 +0100
++++ asterisk-11.25.1/apps/app_dial.c	2018-04-04 14:24:12.743000000 +0200
+@@ -1408,6 +1408,9 @@
+ 							pa->sentringing++;
+ 						}
+ 					}
++					ast_verb(3,"Old orig is %i\n",orig);
++					if (orig > -1 && orig < 120000) orig = 120000;
++					ast_verb(3,"Set orig to %i\n",orig);
+ 					break;
+ 				case AST_CONTROL_PROGRESS:
+ 					ast_verb(3, "%s is making progress passing it to %s\n", ast_channel_name(c), ast_channel_name(in));
+@@ -1427,6 +1430,9 @@
+ 							dtmf_progress);
+ 						ast_dtmf_stream(c, in, dtmf_progress, 250, 0);
+ 					}
++					ast_verb(3,"Old orig is %i\n",orig);
++					if (orig > -1 && orig < 120000) orig = 120000;
++					ast_verb(3,"Set orig to %i\n",orig);
+ 					break;
+ 				case AST_CONTROL_VIDUPDATE:
+ 				case AST_CONTROL_SRCUPDATE:
+@@ -1704,10 +1710,14 @@
+ 		}
+ 	}
+ 
+-	if (!*to) {
+-		ast_verb(3, "Nobody picked up in %d ms\n", orig);
+-	}
+ 	if (!*to || ast_check_hangup(in)) {
++		if(orig >= 0 && orig < 120000) {
++			ast_verb(3, "PDD timeout in %d ms\n", orig);
++			ast_channel_hangupcause_set(in, AST_CAUSE_NORMAL_TEMPORARY_FAILURE);
++			strcpy(pa->status, "CONGESTION");
++		} else {
++			ast_verb(3, "Nobody picked up in %d ms\n", orig);
++		}
+ 		ast_cdr_noanswer(ast_channel_cdr(in));
+ 	}
+ 
