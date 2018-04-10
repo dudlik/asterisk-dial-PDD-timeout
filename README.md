@@ -4,7 +4,7 @@ This is the smallest and the easiest patch I could create.
 I just use the timeout option (second argument) of Dial application.
 If you set the timeout value to 1-119 (in seconds), the argument will be applied as PDD timeout.
 The PDD timer is removed in case of ringing or progress arrived. 
-The timeout is not removed exactly. It is just prolonged to 120 second and used as original timeout oution.
+The timeout is not removed exactly. It is just prolonged to 120 second and used as original timeout option.
 
 When you set the option to 2 (2 seconds)
 The Dial will wait two seconds for ringing or progress. 
